@@ -60,22 +60,45 @@ const postUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.postUsuario = postUsuario;
-const putUsuario = (req, res) => {
+const putUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const { body } = req;
-    res.json({
-        msg: 'putUsuarios',
-        body,
-        id
-    });
-};
+    try {
+        const usuario = yield usuario_1.default.findByPk(id);
+        if (!usuario) {
+            res.send(404).json({
+                msg: `El usuario con el id ${id} no existe`
+            });
+        }
+        const existeEmail = yield usuario_1.default.findOne({
+            where: {
+                email: body.email
+            }
+        });
+        if (!existeEmail) {
+            return res.status(400).json({
+                msg: `El ${body.email} no existe en la base de datos`
+            });
+        }
+        yield (usuario === null || usuario === void 0 ? void 0 : usuario.update(body));
+        res.json({
+            usuario
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: 'Hable con el administrador'
+        });
+    }
+});
 exports.putUsuario = putUsuario;
-const deleteUsuario = (req, res) => {
+const deleteUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     res.json({
         msg: 'deleteUsuarios',
         id
     });
-};
+});
 exports.deleteUsuario = deleteUsuario;
 //# sourceMappingURL=usuario.js.map

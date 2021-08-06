@@ -63,19 +63,51 @@ export const postUsuario = async (req: Request, res: Response) => {
 
 }
 
-export const putUsuario = (req: Request, res: Response) => {
+export const putUsuario = async (req: Request, res: Response) => {
 
     const { id } = req.params;
     const { body } = req;
 
-    res.json({
-        msg: 'putUsuarios',
-        body,
-        id
-    })
+    try {
+
+        const usuario = await Usuario.findByPk(id);
+
+        if(!usuario){
+            res.send(404).json({
+                msg:`El usuario con el id ${id} no existe`
+            });
+        }
+
+        const existeEmail = await Usuario.findOne({
+            where: {
+                email: body.email
+            }
+        })
+
+        if (!existeEmail) {
+            return res.status(400).json({
+                msg: `El ${body.email} no existe en la base de datos`
+            })
+        }
+
+        await usuario?.update( body );
+
+        res.json({
+            usuario
+        });
+
+
+    } catch (error) {
+
+        console.log(error);
+        res.status(500).json({
+            msg: 'Hable con el administrador'
+        });
+
+    }
 }
 
-export const deleteUsuario = (req: Request, res: Response) => {
+export const deleteUsuario = async (req: Request, res: Response) => {
 
     const { id } = req.params;
 
