@@ -1,20 +1,27 @@
 import { Request, Response } from "express";
+import Usuario from "../models/usuario";
 
-export const getUsuarios = (req: Request, res: Response) => {
+export const getUsuarios = async (req: Request, res: Response) => {
 
-    res.json({
-        msg:'getUsuarios'
-    })
+    const usuarios = await Usuario.findAll();
+
+    res.json({usuarios});
 }
 
 
-export const getUsuario = (req: Request, res: Response) => {
+export const getUsuario = async (req: Request, res: Response) => {
 
-const { id } = req.params;
-    res.json({
-        msg: 'getUsuarios',
-        id
-    })
+    const { id } = req.params;
+
+    const usuario = await Usuario.findByPk(id);
+
+    if(usuario ){
+        res.json(usuario);
+    } else {
+        res.status(404).json({
+            msg:`No existe un usuario con el id ${ id }`
+        })
+    }
 }
 
 export const postUsuario = (req: Request, res: Response) => {
@@ -29,7 +36,7 @@ export const postUsuario = (req: Request, res: Response) => {
 export const putUsuario = (req: Request, res: Response) => {
 
     const { id } = req.params;
-    const { body } =req;
+    const { body } = req;
 
     res.json({
         msg: 'putUsuarios',
