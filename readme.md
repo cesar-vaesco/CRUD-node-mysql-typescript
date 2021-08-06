@@ -18,7 +18,7 @@
 
 ### Compilación de typescript
 - En terminal usar dos ventanas - consolas:
-  - Una, typescript compilara en tiempo real al guardar cambios del código ``` tsc --watch``` y nos mostrara los errores
+  - Una, typescript compilara en tiempo real al guardar cambios del código ``` tsc --watch o tsc -w ``` y nos mostrara los errores
   - En la otra se veran los problemas que se vean con la aplicación corriendo
 
 
