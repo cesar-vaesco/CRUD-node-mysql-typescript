@@ -1,11 +1,13 @@
 import { Request, Response } from "express";
-import Usuario from "../models/usuario";
+import Usuario from '../models/usuario';
+
+
 
 export const getUsuarios = async (req: Request, res: Response) => {
 
     const usuarios = await Usuario.findAll();
 
-    res.json({usuarios});
+    res.json({ usuarios });
 }
 
 
@@ -15,22 +17,50 @@ export const getUsuario = async (req: Request, res: Response) => {
 
     const usuario = await Usuario.findByPk(id);
 
-    if(usuario ){
+    if (usuario) {
         res.json(usuario);
     } else {
         res.status(404).json({
-            msg:`No existe un usuario con el id ${ id }`
+            msg: `No existe un usuario con el id ${id}`
         })
     }
 }
 
-export const postUsuario = (req: Request, res: Response) => {
+export const postUsuario = async (req: Request, res: Response) => {
 
     const { body } = req;
-    res.json({
-        msg: 'postUsuarios',
-        body
-    })
+
+    try {
+
+        const existeEmail = await Usuario.findOne({
+            where:{
+                email: body.email
+            }
+        })
+
+        if(existeEmail){
+            return res.status(400).json({
+                msg: `Email ${body.email} ya registrado`
+            })
+        }
+
+        const usuario = Usuario.build(body);
+        await usuario.save();
+
+        res.status(201).json({
+            msg: 'Usuario creado',
+            usuario
+        })
+
+    } catch (error) {
+
+        console.log(error);
+        res.status(500).json({
+            msg: 'Hable con el administrador'
+        });
+
+    }
+
 }
 
 export const putUsuario = (req: Request, res: Response) => {
