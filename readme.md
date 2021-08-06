@@ -16,7 +16,10 @@
 - configurar archivo de configuración de tslint para evitar que typescript tire errores al usar la consola
     - archivo de configuración de tslint, regla a modificar : ```"rules": {"no-console": false},```
 
-###
+### Compilación de typescript
+- En terminal usar dos ventanas - consolas:
+  - Una, typescript compilara en tiempo real al guardar cambios del código ``` tsc --watch``` y nos mostrara los errores
+  - En la otra se veran los problemas que se vean con la aplicación corriendo
 
 
 *** tsc = Command-line TypeScript Compiler***
