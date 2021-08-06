@@ -107,13 +107,48 @@ export const putUsuario = async (req: Request, res: Response) => {
     }
 }
 
+export const deleteUsuarioBorrado = async (req: Request, res: Response) => {
+
+    const { id } = req.params;
+
+    const usuario = await Usuario.findByPk(id);
+
+    if (usuario) {
+        res.json(usuario);
+    } else {
+        res.status(404).json({
+            msg: `No existe un usuario con el id ${id}`
+        })
+    }
+
+    await usuario?.destroy();
+
+
+    res.json({
+        msg: 'Usuario borrado'
+    })
+}
+
+
 export const deleteUsuario = async (req: Request, res: Response) => {
 
     const { id } = req.params;
 
+    const usuario = await Usuario.findByPk(id);
+
+    if (usuario) {
+        res.json(usuario);
+    } else {
+        res.status(404).json({
+            msg: `No existe un usuario con el id ${id}`
+        })
+    }
+
+    await usuario?.update({estado: 0});
+
 
     res.json({
-        msg: 'deleteUsuarios',
-        id
+        msg: 'Usuario borrado logico',
+        usuario
     })
 }

@@ -2,6 +2,7 @@
 
 import { Router } from 'express';
 import { deleteUsuario,
+        deleteUsuarioBorrado,
          getUsuario,
          getUsuarios,
          postUsuario,
@@ -15,7 +16,8 @@ router.get('/',       getUsuarios);
 router.get('/:id',    getUsuario);
 router.post('/',      postUsuario);
 router.put('/:id',    putUsuario);
-router.delete('/:id', deleteUsuario);
+router.delete('/borrado-fisico/:id', deleteUsuarioBorrado);
+router.delete('/borrado-logico/:id', deleteUsuario);
 
 
 

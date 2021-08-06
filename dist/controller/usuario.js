@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUsuario = exports.putUsuario = exports.postUsuario = exports.getUsuario = exports.getUsuarios = void 0;
+exports.deleteUsuario = exports.deleteUsuarioBorrado = exports.putUsuario = exports.postUsuario = exports.getUsuario = exports.getUsuarios = void 0;
 const usuario_1 = __importDefault(require("../models/usuario"));
 const getUsuarios = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const usuarios = yield usuario_1.default.findAll();
@@ -93,11 +93,38 @@ const putUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.putUsuario = putUsuario;
+const deleteUsuarioBorrado = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const usuario = yield usuario_1.default.findByPk(id);
+    if (usuario) {
+        res.json(usuario);
+    }
+    else {
+        res.status(404).json({
+            msg: `No existe un usuario con el id ${id}`
+        });
+    }
+    yield (usuario === null || usuario === void 0 ? void 0 : usuario.destroy());
+    res.json({
+        msg: 'Usuario borrado'
+    });
+});
+exports.deleteUsuarioBorrado = deleteUsuarioBorrado;
 const deleteUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
+    const usuario = yield usuario_1.default.findByPk(id);
+    if (usuario) {
+        res.json(usuario);
+    }
+    else {
+        res.status(404).json({
+            msg: `No existe un usuario con el id ${id}`
+        });
+    }
+    yield (usuario === null || usuario === void 0 ? void 0 : usuario.update({ estado: 0 }));
     res.json({
-        msg: 'deleteUsuarios',
-        id
+        msg: 'Usuario borrado logico',
+        usuario
     });
 });
 exports.deleteUsuario = deleteUsuario;
