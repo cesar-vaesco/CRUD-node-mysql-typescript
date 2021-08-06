@@ -21,5 +21,9 @@
   - Una, typescript compilara en tiempo real al guardar cambios del código ``` tsc --watch o tsc -w ``` y nos mostrara los errores
   - En la otra se veran los problemas que se vean con la aplicación corriendo
 
+### Creación de base de datos
+- En el cliente de mysql se creo la tabla de la base
+- Instalación de sequelize - ORM  ``` npm install --save sequelize```
+- Instalación del cliente de  mysql para node ```npm install --save mysql2```
 
 *** tsc = Command-line TypeScript Compiler***
